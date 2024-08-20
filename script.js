@@ -13,7 +13,7 @@ const divide = (num1, num2) => num1 / num2;
 
 const operate = (operator, num1, num2) => {
   num1 = +num1;
-  num2 = +num2; //string to number
+  num2 = +num2; //convert string to number
   switch (operator) {
     case "+":
       return add(num1, num2);
@@ -44,6 +44,7 @@ buttons.addEventListener("click", (event) => {
       break;
     case "clear":
       clear();
+
       break;
   }
 });
@@ -72,7 +73,15 @@ function resetDisplay() {
 function calculate() {
   if (currentOperator === null || displayReset) return;
   secondOperand = display.textContent;
-  display.textContent = roundDecimal(operate(currentOperator, firstOperand, secondOperand));
+
+  if (currentOperator === "/" && secondOperand === "0") {
+    display.textContent = "XDD";
+    displayReset = true;
+  } else {
+    display.textContent = roundDecimal(
+      operate(currentOperator, firstOperand, secondOperand),
+    );
+  }
   currentOperator = null;
 }
 
@@ -80,7 +89,7 @@ function clear() {
   firstOperand = "";
   secondOperand = "";
   currentOperator = null;
-  displayReset = true;
+  display.textContent = "";
 }
 
 function roundDecimal(value) {
