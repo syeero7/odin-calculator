@@ -47,6 +47,10 @@ buttons.addEventListener("click", (event) => {
       clear();
 
       break;
+    case "backspace":
+      backspace();
+
+      break;
   }
 });
 
@@ -55,7 +59,7 @@ function displayValues(value) {
     resetDisplay();
   }
   if (value === "." && display.textContent.includes(".")) return;
-  if (display.textContent.length > 7) return
+  if (display.textContent.length > 7) return;
   display.textContent += value;
 }
 
@@ -97,4 +101,8 @@ function clear() {
 
 function roundDecimal(value) {
   return Math.round(value * 100) / 100;
+}
+
+function backspace() {
+  display.textContent = display.textContent.slice(0, -1);
 }
