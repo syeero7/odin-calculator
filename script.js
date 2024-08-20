@@ -40,6 +40,7 @@ buttons.addEventListener("click", (event) => {
       break;
     case "equals":
       calculate();
+      displayReset = true;
 
       break;
     case "clear":
@@ -53,6 +54,7 @@ function displayValues(value) {
   if (display.textContent === "0" || displayReset) {
     resetDisplay();
   }
+  if (value === "." && display.textContent.includes(".")) return;
   display.textContent += value;
 }
 
