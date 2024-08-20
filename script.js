@@ -1,5 +1,5 @@
 const display = document.querySelector("#display");
-const buttons = document.querySelector("ul");
+const buttons = document.querySelector("#buttons");
 
 let firstOperand = "";
 let secondOperand = "";
@@ -55,6 +55,7 @@ function displayValues(value) {
     resetDisplay();
   }
   if (value === "." && display.textContent.includes(".")) return;
+  if (display.textContent.length > 7) return
   display.textContent += value;
 }
 
