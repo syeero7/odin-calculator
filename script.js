@@ -72,7 +72,7 @@ function resetDisplay() {
 function calculate() {
   if (currentOperator === null || displayReset) return;
   secondOperand = display.textContent;
-  display.textContent = operate(currentOperator, firstOperand, secondOperand);
+  display.textContent = roundDecimal(operate(currentOperator, firstOperand, secondOperand));
   currentOperator = null;
 }
 
@@ -81,4 +81,8 @@ function clear() {
   secondOperand = "";
   currentOperator = null;
   displayReset = true;
+}
+
+function roundDecimal(value) {
+  return Math.round(value * 100) / 100;
 }
