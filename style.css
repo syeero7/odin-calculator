@@ -56,6 +56,7 @@ button {
   font: inherit;
   height: 75px;
   justify-content: center;
+  cursor: pointer;
 }
 
 .equals {
