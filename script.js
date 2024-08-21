@@ -26,6 +26,7 @@ const operate = (operator, num1, num2) => {
   }
 };
 
+window.addEventListener("keyup", handleKeyboardInput);
 buttons.addEventListener("click", (event) => {
   const target = event.target;
 
@@ -105,4 +106,18 @@ function roundDecimal(value) {
 
 function backspace() {
   display.textContent = display.textContent.slice(0, -1);
+}
+
+function handleKeyboardInput(event) {
+  const key = event.key;
+
+  if (key === "." || (key >= 0 && key <= 9)) displayValues(key);
+  if (key === "Enter" || key === "=") {
+    calculate();
+    displayReset = true;
+  }
+  if (key === "+" || key === "-" || key === "*" || key === "/")
+    chooseOperation(key);
+  if (key === "Backspace" || key === "Delete") backspace();
+  if (key === "Shift") clear();
 }
