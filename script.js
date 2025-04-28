@@ -12,7 +12,7 @@ buttons.addEventListener("click", handleClick);
 
 function updateDisplay(value) {
   if (clearDisplay) {
-    displayValue.textContent = "0";
+    displayValue.textContent = 0;
     clearDisplay = false;
   }
   if (value === "." && displayValue.textContent.includes(".")) return;
@@ -28,7 +28,7 @@ function updateDisplay(value) {
 
 function chooseOperation(operator) {
   if (currentOperator) calculate();
-  firstOperand = displayValue.textContent;
+  firstOperand = displayValue.textContent === "BAKA" ? 0 : displayValue.textContent;
   currentOperator = operator;
   displayOperator.textContent = operator;
   clearDisplay = true;
@@ -71,7 +71,8 @@ function clear() {
   firstOperand = "";
   secondOperand = "";
   currentOperator = null;
-  displayValue.textContent = "0";
+  displayValue.textContent = 0;
+  displayOperator.textContent = "";
 }
 
 function backspace() {
