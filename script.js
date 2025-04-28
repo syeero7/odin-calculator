@@ -1,123 +1,117 @@
-const display = document.querySelector("#display");
-const buttons = document.querySelector("#buttons");
+const displayValue = document.querySelector(".display-value");
+const displayOperator = document.querySelector(".display-operator");
+const buttons = document.querySelector(".buttons");
 
 let firstOperand = "";
 let secondOperand = "";
 let currentOperator = null;
-let displayReset = false;
+let clearDisplay = false;
 
-const add = (num1, num2) => num1 + num2;
-const subtract = (num1, num2) => num1 - num2;
-const multiply = (num1, num2) => num1 * num2;
-const divide = (num1, num2) => num1 / num2;
+window.addEventListener("keyup", handleKeyup);
+buttons.addEventListener("click", handleClick);
 
-const operate = (operator, num1, num2) => {
-  num1 = +num1;
-  num2 = +num2; //convert string to number
-  switch (operator) {
-    case "+":
-      return add(num1, num2);
-    case "-":
-      return subtract(num1, num2);
-    case "*":
-      return multiply(num1, num2);
-    case "/":
-      return divide(num1, num2);
+function updateDisplay(value) {
+  if (clearDisplay) {
+    displayValue.textContent = "0";
+    clearDisplay = false;
   }
-};
-
-window.addEventListener("keyup", handleKeyboardInput);
-buttons.addEventListener("click", (event) => {
-  const target = event.target;
-
-  switch (target.className) {
-    case "number":
-      displayValues(target.textContent);
-
-      break;
-    case "operator":
-      chooseOperation(target.textContent);
-
-      break;
-    case "equals":
-      calculate();
-      displayReset = true;
-
-      break;
-    case "clear":
-      clear();
-
-      break;
-    case "backspace":
-      backspace();
-
-      break;
+  if (value === "." && displayValue.textContent.includes(".")) return;
+  if (value === "0" && displayValue.textContent === "0") return;
+  if (displayValue.textContent.length > 10) return;
+  if (displayValue.textContent === "0" && value !== ".") {
+    displayValue.textContent = value;
+    return;
   }
-});
 
-function displayValues(value) {
-  if (display.textContent === "0" || displayReset) {
-    resetDisplay();
-  }
-  if (value === "." && display.textContent.includes(".")) return;
-  if (display.textContent.length > 7) return;
-  display.textContent += value;
+  displayValue.textContent += value;
 }
 
 function chooseOperation(operator) {
-  if (currentOperator !== null) {
-    calculate();
-  }
-  firstOperand = display.textContent;
+  if (currentOperator) calculate();
+  firstOperand = displayValue.textContent;
   currentOperator = operator;
-  displayReset = true;
-}
-
-function resetDisplay() {
-  display.textContent = "";
-  displayReset = false;
+  displayOperator.textContent = operator;
+  clearDisplay = true;
 }
 
 function calculate() {
-  if (currentOperator === null || displayReset) return;
-  secondOperand = display.textContent;
+  if (!currentOperator || clearDisplay) return;
+  secondOperand = displayValue.textContent;
+  clearDisplay = true;
 
   if (currentOperator === "/" && secondOperand === "0") {
-    display.textContent = "XDD";
-    displayReset = true;
-  } else {
-    display.textContent = roundDecimal(
-      operate(currentOperator, firstOperand, secondOperand),
-    );
+    displayValue.textContent = "BAKA";
+    displayOperator.textContent = "";
+    return;
   }
+
+  const result = operate(currentOperator, firstOperand, secondOperand);
+  displayValue.textContent = Math.round(result * 100) / 100;
   currentOperator = null;
+  displayOperator.textContent = "";
 }
+
+const operate = (operator, num1, num2) => {
+  num1 = Number(num1);
+  num2 = Number(num2);
+
+  switch (operator) {
+    case "+":
+      return num1 + num2;
+    case "-":
+      return num1 - num2;
+    case "*":
+      return num1 * num2;
+    case "/":
+      return num1 / num2;
+  }
+};
 
 function clear() {
   firstOperand = "";
   secondOperand = "";
   currentOperator = null;
-  display.textContent = "";
-}
-
-function roundDecimal(value) {
-  return Math.round(value * 100) / 100;
+  displayValue.textContent = "0";
 }
 
 function backspace() {
-  display.textContent = display.textContent.slice(0, -1);
+  if (currentOperator) {
+    currentOperator = null;
+    displayOperator.textContent = "";
+    return;
+  }
+
+  displayValue.textContent = displayValue.textContent.slice(0, -1);
 }
 
-function handleKeyboardInput(event) {
-  const key = event.key;
+function handleClick(e) {
+  const target = e.target;
 
-  if (key === "." || (key >= 0 && key <= 9)) displayValues(key);
-  if (key === "Enter" || key === "=") {
-    calculate();
-    displayReset = true;
+  switch (target.className) {
+    case "number":
+      updateDisplay(target.textContent);
+      break;
+    case "operator":
+      chooseOperation(target.textContent);
+      break;
+    case "equals":
+      calculate();
+      break;
+    case "clear":
+      clear();
+      break;
+    case "backspace":
+      backspace();
+      break;
   }
-  if (key === "+" || key === "-" || key === "*" || key === "/")
-    chooseOperation(key);
+}
+
+function handleKeyup(e) {
+  const key = e.key;
+
+  if (key === "." || (key >= 0 && key <= 9)) updateDisplay(key);
+  if (key === "+" || key === "-" || key === "*" || key === "/") chooseOperation(key);
+  if (key === "Enter" || key === "=") calculate();
   if (key === "Backspace" || key === "Delete") backspace();
   if (key === "Shift") clear();
 }
