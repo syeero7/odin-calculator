@@ -1,6 +1,4 @@
-*,
-*::after,
-*::before {
+* {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -9,79 +7,87 @@
 body {
   align-items: center;
   display: flex;
-  font-family: "Orbitron", sans-serif;
-  font-size: 2.9rem;
-  font-style: normal;
-  font-weight: 500;
-  height: 100vh;
+  font-family: Tahoma, Geneva, Verdana, sans-serif;
   justify-content: center;
+  min-height: 100vh;
 }
 
-#calculator {
-  background-color: #2b2d42;
-  border-radius: 22px;
+.calculator {
+  background-color: #333;
   display: flex;
   flex-direction: column;
-  gap: 2rem;
-  height: 580px;
-  margin: 0 0.8rem;
-  padding: 1.5rem;
-  width: 360px;
+  gap: 1rem;
+  padding: 1rem;
+  min-width: 320px;
 }
 
-#display {
+.display {
+  color: #000;
   align-items: center;
-  background-color: #a5a5a5;
+  background-color: #fcfcfcbe;
+  flex-direction: column;
   display: flex;
-  height: 64px;
-  justify-content: end;
-  overflow:hidden;
-  padding-right: 2px;
+  align-items: end;
+  justify-content: space-around;
+  overflow: hidden;
+  padding: 4px;
 }
 
-#buttons {
+.display-value {
+  min-height: 45px;
+  font-size: 2.4em;
+}
+
+.display-operator {
+  font-size: 1.3em;
+  min-height: 25px;
+}
+
+.buttons {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.4rem;
-  height: 450px;
+  justify-content: center;
+  gap: 5px;
+  width: 300px;
+  min-height: 375px;
 }
 
 button {
   align-items: center;
-  border-radius: 10px;
+  border-radius: 3px;
   border: none;
-  color: #333;
   display: flex;
-  flex: 1 0 20%;
   font: inherit;
-  height: 75px;
+  height: 70px;
   justify-content: center;
   cursor: pointer;
+  font-size: 2.5em;
+}
+
+.number,
+.operator,
+.backspace {
+  width: 70px;
 }
 
 .equals {
-  background-color: #577399;
-  color: #F7F7FF;
-  flex-basis: 45%;
+  background-color: #13a856;
+  color: #fff;
+  width: 145px;
 }
 
 .clear {
-  background-color: #e63946;
-  color: #F7F7FF;
-  flex-basis: 38%;
+  background-color: #d02d3a;
+  width: 145px;
+  font-size: 2.8em;
+  color: #fff;
 }
 
 .backspace {
-  color: #e63946;
-  flex-basis: 28%;
+  color: #d02d3a;
 }
 
 .operator {
-  background-color: #8d99ae;
-}
-
-.operator:focus {
-  background-color: #333;
-  border: 2px solid #F7F7FF;
-  color: #F7F7FF;
+  background-color: #0e7cac;
+  color: #fff;
 }
